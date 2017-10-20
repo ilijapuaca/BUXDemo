@@ -1,0 +1,18 @@
+PODS:
+  - Alamofire (4.5.1)
+  - HGPlaceholders (0.2.6)
+  - Starscream (3.0.2)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.5)
+  - HGPlaceholders (~> 0.2)
+  - Starscream (~> 3.0)
+
+SPEC CHECKSUMS:
+  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
+  HGPlaceholders: b05be87025781e6fe9f7739d3529f2209b92ed80
+  Starscream: b512c62f6706421221b5ceb2ba01a9f58aca5bea
+
+PODFILE CHECKSUM: e0a64d27ae33240d75795d8dc0864d58acada0fe
+
+COCOAPODS: 1.1.1
