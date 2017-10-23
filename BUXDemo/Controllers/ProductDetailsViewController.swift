@@ -25,6 +25,8 @@ class ProductDetailsViewController: UIViewController {
         currencyFormatter.locale = Locale.current
         currencyFormatter.numberStyle = .currency
         currencyFormatter.currencyCode = product.quoteCurrency
+        currencyFormatter.minimumFractionDigits = product.currentPrice.decimals
+        currencyFormatter.maximumFractionDigits = product.currentPrice.decimals
         currencyFormatter.minusSign = "- "
         currencyFormatter.plusSign = "+ "
 

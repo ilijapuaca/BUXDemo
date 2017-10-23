@@ -14,6 +14,7 @@ class ProductCollectionViewCell: UICollectionViewCell {
     // MARK: - Properties
 
     /// Formatter we'll be using to format currencies.
+    /*
     private let currencyFormatter: NumberFormatter = {
         let currencyFormatter = NumberFormatter()
         currencyFormatter.locale = Locale.current
@@ -21,6 +22,7 @@ class ProductCollectionViewCell: UICollectionViewCell {
 
         return currencyFormatter
     }()
+     */
 
     /// Formatter we'll be using to format percent values.
     private let percentFormatter: NumberFormatter = {
@@ -78,7 +80,9 @@ class ProductCollectionViewCell: UICollectionViewCell {
     ///
     /// - Parameter product: Product to populate the UI with
     func showData(product: Product) {
-        currencyFormatter.currencyCode = product.quoteCurrency
+        // Creating a new currency formatter every time here because reusing it doesn't
+        // seem to respect newly set minimumFractionDigits/maximumFractionDigits
+        let currencyFormatter = createCurrencyFormatter(product: product)
 
         productNameLabel.text = product.displayName.uppercased()
         productCurrentPriceLabel.text = currencyFormatter.string(from: product.currentPrice.amount as NSNumber)
@@ -86,6 +90,24 @@ class ProductCollectionViewCell: UICollectionViewCell {
         let priceChange = (product.currentPrice - product.closingPrice)?.amount ?? 0.0
         let priceChangeInPercents = priceChange / product.closingPrice.amount
         productDayChangeLabel.text = percentFormatter.string(from: priceChangeInPercents as NSNumber)
+    }
+
+    // MARK: - Utility methods
+
+    /// Creates a new NumberFormatter that is set to format currency numbers based on product.
+    ///
+    /// - Parameter product: Product to initialize formatter for
+    /// - Returns: Newly created NumberFormatter that is set up based on product.
+    private func createCurrencyFormatter(product: Product) -> NumberFormatter {
+        let currencyFormatter = NumberFormatter()
+        currencyFormatter.locale = Locale.current
+        currencyFormatter.numberStyle = .currency
+
+        currencyFormatter.currencyCode = product.quoteCurrency
+        currencyFormatter.minimumFractionDigits = product.currentPrice.decimals
+        currencyFormatter.maximumFractionDigits = product.currentPrice.decimals
+
+        return currencyFormatter
     }
 
 }
