@@ -78,14 +78,14 @@ class ProductDetailsViewController: UIViewController {
         super.viewWillAppear(animated)
 
         // Subscribe to price update events
-        buxWebSocketManager.subscribeToPriceUpdates(product: product) { (newPrice, error) in
+        buxWebSocketManager.subscribeToPriceUpdates(product: product) { [weak self] (newPrice, error) in
             guard let newPrice = newPrice else {
                 // Since these come in super often, presenting user with an error wouldn't make much sense
                 return
             }
 
             // Update the UI with new price data
-            self.updateCurrentPrice(newPrice)
+            self?.updateCurrentPrice(newPrice)
         }
     }
 

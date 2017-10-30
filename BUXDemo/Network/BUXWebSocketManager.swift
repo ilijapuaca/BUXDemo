@@ -61,7 +61,11 @@ class BUXWebSocketManager {
     func subscribeToPriceUpdates(product: Product, handler: @escaping ProductPriceUpdateClosure) {
         // Not sure whether reusing the same socket for multiple operations is a more optimal approach, research
         let socket = createSocket()
-        socket.onConnect = {
+        socket.onConnect = { [weak self] in
+            guard let `self` = self else {
+                return
+            }
+
             // Add the socket to socket cache
             self.socketCache[product.securityId] = socket
 
@@ -69,8 +73,8 @@ class BUXWebSocketManager {
             socket.write(string: self.subscribeCommand(product: product))
         }
 
-        socket.onDisconnect = { error in
-            self.socketCache[product.securityId] = nil
+        socket.onDisconnect = { [weak self] error in
+            self?.socketCache[product.securityId] = nil
 
             // TODO: Should we report an error if disconnect was not called by us?
         }
